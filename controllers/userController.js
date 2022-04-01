@@ -5,7 +5,13 @@ const User = require("../models/users");
 
 exports.userCheck = (req, res, next) => {
   res.status(200).json({
+    success: true
+  });
+};
+exports.userCheckPost = (req, res, next) => {
+  res.status(200).json({
     success: true,
+    data: "post request is working fine"
   });
 };
 
@@ -15,7 +21,7 @@ exports.newUser = async (req, res, next) => {
   const user = await User.create(req.body);
 
   res.status(201).json({
-    success: true,
+    success: true
   });
 };
 
@@ -27,10 +33,10 @@ exports.findUser = async (req, res, next) => {
   });
   if (!user) {
     res.status(201).json({
-      success: false,
+      success: false
     });
   }
   res.status(201).json({
-    success: true,
+    success: true
   });
 };
