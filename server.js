@@ -23,6 +23,12 @@ app.use(
 );
 
 app.use(cookieParser("secretcode"));
+// intialize the passport
+
+app.use(passport.initialize());
+app.use(passport.session());
+require("./auth/passportConfig")(passport);
+
 app.listen(process.env.PORT, () => {
   console.log(
     "server started at port",
