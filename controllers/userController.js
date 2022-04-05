@@ -63,33 +63,33 @@ exports.findUser = async (req, res, next) => {
 // login route
 
 exports.login = async (req, res, next) => {
-  await User.findOne({ email: req.body.email }, (err, doc) => {
-    if (err) console.log(err);
-    if (doc) {
-      console.log(doc);
-      const user = doc;
-      try {
-        passport.authenticate("local", (err, doc, info) => {
-          if (err) throw err;
-          if (!user) res.send("no user exist");
-          else {
-            req.logIn(user, (err) => {
-              if (err) throw err;
-              res.send("Successfully Authenticated");
-              console.log(req.user);
-            });
-          }
-        })(req, res, next);
-      } catch (err) {
-        console.log(err);
-      }
+  // await User.findOne({ email: req.body.email }, (err, doc) => {
+  //   if (err) console.log(err);
+  //   if (doc) {
+  //     console.log(doc);
+  //     const user = doc;
+
+  // passport.authenticate("local", { failureRedirect: "/login" }),
+  //   function (req, res,next) {
+  console.log("inside the post login routes");
+  passport.authenticate("local", { successRedirect: "/homepage" })(
+    (req, res, next) => {
+      console.log(res);
     }
-  }).catch((err) => {
-    console.log(err);
-  });
+  );
+
+  // };
 };
 
 // basic blank page to check if user is present
 exports.homepage = (req, res, next) => {
-  res.send(req.user);
+  console.log(req);
+  if (req.user) {
+    res.status(200).json({
+      authenticate: true,
+      data: req.user,
+    });
+  } else {
+    res.send("use not authenticated");
+  }
 };

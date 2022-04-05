@@ -3,12 +3,16 @@ const localStrategy = require("passport-local").Strategy;
 const users = require("../models/users");
 
 module.exports = function (passport) {
+  console.log("inside the authentication function");
   passport.use(
-    new localStrategy((email, password, done) => {
-      username.find({ email: email }, (err, user) => {
+    new localStrategy((username, password, done) => {
+      users.find({ email: username }, (err, user) => {
         if (err) throw err;
         if (!user) return done(null, false);
-        bcrypt.compare(password, user.password, (err, result) => {
+        user = user[0];
+
+        bcryptjs.compare(password, user.password, (err, result) => {
+          console.log("result=", result);
           if (err) throw err;
           if (result === true) {
             return done(null, user);
