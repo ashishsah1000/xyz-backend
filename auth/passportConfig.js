@@ -2,11 +2,11 @@ const bcryptjs = require("bcryptjs");
 const localStrategy = require("passport-local").Strategy;
 const users = require("../models/users");
 
-module.exports = function (passport) {
+module.exports = async function (passport) {
   console.log("inside the authentication function");
   passport.use(
-    new localStrategy((username, password, done) => {
-      users.find({ email: username }, (err, user) => {
+    new localStrategy(async (username, password, done) => {
+      await users.find({ email: username }, (err, user) => {
         if (err) throw err;
         if (!user) return done(null, false);
         user = user[0];

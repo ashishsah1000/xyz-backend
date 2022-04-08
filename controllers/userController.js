@@ -72,18 +72,31 @@ exports.login = async (req, res, next) => {
   // passport.authenticate("local", { failureRedirect: "/login" }),
   //   function (req, res,next) {
   console.log("inside the post login routes");
-  passport.authenticate("local", { successRedirect: "/homepage" })(
-    (req, res, next) => {
-      console.log(res);
+  passport.authenticate(
+    "local",
+
+    (err, user, info) => {
+      if (err) console.log(err);
+      if (!user) {
+        console.log("no user was found");
+        res.send("User was not found");
+      } else {
+        req.logIn((user, err) => {
+          if (err) throw err;
+          res.send("authenticated Successfully");
+          console.log(req.user);
+        });
+      }
     }
-  );
+  )(req, res, next);
 
   // };
 };
 
 // basic blank page to check if user is present
 exports.homepage = (req, res, next) => {
-  console.log(req);
+  console.log("In homepage route");
+  console.log(req.user);
   if (req.user) {
     res.status(200).json({
       authenticate: true,
