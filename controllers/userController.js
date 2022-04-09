@@ -62,35 +62,29 @@ exports.findUser = async (req, res, next) => {
 
 // login route
 
-exports.login = async (req, res, next) => {
-  // await User.findOne({ email: req.body.email }, (err, doc) => {
-  //   if (err) console.log(err);
-  //   if (doc) {
-  //     console.log(doc);
-  //     const user = doc;
-
-  // passport.authenticate("local", { failureRedirect: "/login" }),
-  //   function (req, res,next) {
-  console.log("inside the post login routes");
-  passport.authenticate(
-    "local",
-
-    (err, user, info) => {
-      if (err) console.log(err);
-      if (!user) {
-        console.log("no user was found");
-        res.send("User was not found");
-      } else {
-        req.logIn((user, err) => {
-          if (err) throw err;
-          res.send("authenticated Successfully");
-          console.log(req.user);
-        });
-      }
+exports.login = (req, res, next) => {
+  if (req.user) {
+    res.send("user is already logged in");
+  }
+  passport.authenticate("local", function (err, user, info) {
+    if (err) {
+      console.log(err);
+      return res.status(401).json(err);
     }
-  )(req, res, next);
-
-  // };
+    if (user) {
+      console.log("user found and authenticated");
+      console.log("use is ", user);
+      req.login(user, function (err) {
+        if (err) {
+          console.log(err);
+        }
+        console.log("req username" + req.user.name);
+        return res.send("successfully loged in");
+      });
+    } else {
+      res.status(401).json(info);
+    }
+  })(req, res, next);
 };
 
 // basic blank page to check if user is present
@@ -104,5 +98,14 @@ exports.homepage = (req, res, next) => {
     });
   } else {
     res.send("use not authenticated");
+  }
+};
+
+exports.logout = (req, res, next) => {
+  if (!req.user) {
+    res.send("no user has logged in");
+  } else {
+    req.logout();
+    res.send("successfully logged out check the status");
   }
 };

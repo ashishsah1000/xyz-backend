@@ -1,6 +1,8 @@
 const express = require("express");
+const Passport = require("passport");
 
 const router = express.Router();
+Passport;
 
 const {
   newUser,
@@ -9,6 +11,7 @@ const {
   findUser,
   homepage,
   login,
+  logout,
 } = require("../controllers/userController");
 
 // sing up and registeration routes
@@ -21,5 +24,8 @@ router.route("/user").get(userCheck); //for checking the route
 
 router.route("/user/login").post(login);
 router.route("/homepage").get(homepage);
+
+// signout routes
+router.route("/user/logout").post(logout);
 
 module.exports = router;

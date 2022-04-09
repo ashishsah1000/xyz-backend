@@ -6,14 +6,10 @@ app.use(
   cors({
     credentials: true,
     origin: "http://localhost:3000",
+    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
   })
 );
 
 app.use(express.json());
 
-// all the routes
-
-const users = require("./routes/users");
-
-app.use("/", users);
 module.exports = app;

@@ -1,14 +1,17 @@
 const bcryptjs = require("bcryptjs");
+const req = require("express/lib/request");
+const res = require("express/lib/response");
 const localStrategy = require("passport-local").Strategy;
 const users = require("../models/users");
 
-module.exports = async function (passport) {
+module.exports = function (passport) {
   console.log("inside the authentication function");
   passport.use(
-    new localStrategy(async (username, password, done) => {
-      await users.find({ email: username }, (err, user) => {
+    new localStrategy((username, password, done) => {
+      users.find({ email: username }, (err, user) => {
         if (err) throw err;
         if (!user) return done(null, false);
+        console.log(user);
         user = user[0];
 
         bcryptjs.compare(password, user.password, (err, result) => {
@@ -24,11 +27,15 @@ module.exports = async function (passport) {
     })
   );
   passport.serializeUser((user, cb) => {
-    cb(user, user.id);
+    cb(null, user._id);
   });
   passport.deserializeUser((id, cb) => {
-    User.find({ _id: id }, (err, user) => {
-      cb(err, user);
+    users.find({ _id: id }, (err, user) => {
+      if (err) {
+        cb(null, false, { error: err });
+      } else {
+        cb(null, user);
+      }
     });
   });
 };
