@@ -78,7 +78,7 @@ exports.login = (req, res, next) => {
         if (err) {
           console.log(err);
         }
-        console.log("req username" + req.user.name);
+        console.log("req username" + req.user);
         return res.send("successfully loged in");
       });
     } else {
