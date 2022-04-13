@@ -2,7 +2,6 @@ const express = require("express");
 const Passport = require("passport");
 
 const router = express.Router();
-Passport;
 
 const {
   newUser,

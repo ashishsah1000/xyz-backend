@@ -57,6 +57,9 @@ require("./auth/passportConfig")(passport);
 const users = require("./routes/users");
 app.use("/", users);
 
+const items = require("./routes/items");
+app.use("/items", items);
+
 app.listen(process.env.PORT, () => {
   console.log(
     "server started at port",

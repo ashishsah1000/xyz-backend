@@ -13,7 +13,14 @@ const itemSchema = new mongoose.Schema({
   },
   itemCode: {
     type: String,
-    unique: [true, "same ID already exists"],
+  },
+  price: {
+    type: Number,
+    required: [true, "Price nai doge toh kaam kaisa chlega"],
+  },
+  createdOn: {
+    type: Date,
+    default: Date.now(),
   },
 });
 

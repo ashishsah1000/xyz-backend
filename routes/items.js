@@ -8,7 +8,7 @@ const router = express.Router();
 
 // insert a product
 
-router.route("/items/createProduct").post(createItem);
+router.route("/createProduct").post(createItem);
 
 // retrive all products
 
