@@ -5,22 +5,39 @@ const items = require("../../models/items");
 // insert a product
 exports.createItem = async (req, res, next) => {
   if (req.user) {
-    await items.findOne({ itemCode: req.body.itemCode }, (err, doc) => {
+    await items.findOne({ email: req.body.username }, async (err, doc) => {
       if (err) {
         console.log(err);
-        res.send("some err has occured");
+        return res.send("some err has occured");
       }
-      if (doc) res.send("item already exist");
+      if (doc) {
+        doc.items.push(req.body.items[0]);
+        await doc.save();
+        return res.send("success");
+      }
       if (!doc) {
         const createItem = items.create(req.body);
-        res.send("Item was created");
+        return res.send("Item was created");
       }
     });
   } else {
-    res.send("authorization error");
+    return res.send("authorization error");
   }
 
   res.send("Product was recived");
 };
 
 // retrive all products
+exports.allItems = async (req, res, next) => {
+  if (!req.user) {
+    items.find((err, doc) => {
+      if (err) {
+        console.log(err);
+        res.send("there has been error on the server");
+      } else {
+        console.log(doc);
+        res.json(doc);
+      }
+    });
+  }
+};

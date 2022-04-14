@@ -1,6 +1,6 @@
 const express = require("express");
 const Passport = require("passport");
-const { createItem } = require("../controllers/items/itemController");
+const { createItem, allItems } = require("../controllers/items/itemController");
 
 const router = express.Router();
 
@@ -11,6 +11,7 @@ const router = express.Router();
 router.route("/createProduct").post(createItem);
 
 // retrive all products
+router.route("/getAllItems").get(allItems);
 
 // delete specific product
 

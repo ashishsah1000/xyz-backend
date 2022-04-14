@@ -64,7 +64,7 @@ exports.findUser = async (req, res, next) => {
 
 exports.login = (req, res, next) => {
   if (req.user) {
-    res.send("user is already logged in");
+    return res.send("user is already logged in");
   }
   passport.authenticate("local", function (err, user, info) {
     if (err) {
@@ -79,7 +79,13 @@ exports.login = (req, res, next) => {
           console.log(err);
         }
         console.log("req username" + req.user);
-        return res.send("successfully loged in");
+        const user = {
+          name: req.user.name,
+          username: req.user.email,
+          email: req.user.email,
+          timeStamp: Date.now(),
+        };
+        return res.send(user);
       });
     } else {
       res.status(401).json(info);
