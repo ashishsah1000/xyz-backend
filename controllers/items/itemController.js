@@ -29,15 +29,19 @@ exports.createItem = async (req, res, next) => {
 
 // retrive all products
 exports.allItems = async (req, res, next) => {
-  if (!req.user) {
+  if (req.user) {
     items.find((err, doc) => {
       if (err) {
         console.log(err);
         res.send("there has been error on the server");
       } else {
         console.log(doc);
-        res.json(doc);
+        res.send(doc);
       }
     });
-  }
+  } else
+    res.send({
+      success: false,
+      error: "autherization error",
+    });
 };
