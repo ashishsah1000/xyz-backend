@@ -45,3 +45,15 @@ exports.allItems = async (req, res, next) => {
       error: "autherization error",
     });
 };
+
+//  delete a product
+
+exports.deleteProduct = async (req, res, next) => {
+  if(req.user){
+    await items.deleteOne( {_id:req.body._id})
+    res.status(200).send("deleted")
+  }
+  else{
+    res.status(401).send("unauthorized");
+  }
+}
