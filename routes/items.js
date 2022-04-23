@@ -13,7 +13,7 @@ router.route("/createProduct").post(createItem);
 router.route("/getAllItems").get(allItems);
 
 // delete specific product
-router.route("/removeProduct").delete(deleteProduct)
+router.route("/removeProduct").post(deleteProduct)
 
 // update specific product
 
