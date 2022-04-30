@@ -8,9 +8,14 @@ const User = require("../models/users");
 // this is the test route for users
 
 exports.userCheck = (req, res, next) => {
-  res.status(200).json({
-    success: true,
-  });
+  if (req.user) {
+    return res.status(200).json({
+      success: true,
+    });
+  } else
+    return res.status(200).json({
+      success: false,
+    });
 };
 exports.userCheckPost = (req, res, next) => {
   res.status(200).json({
@@ -83,6 +88,7 @@ exports.login = (req, res, next) => {
           name: req.user.name,
           username: req.user.email,
           email: req.user.email,
+          id: req.user._id,
           timeStamp: Date.now(),
         };
         return res.send(user);
