@@ -117,3 +117,22 @@ exports.deleteProduct = async (req, res, next) => {
     return res.status(401).send("unauthorized");
   }
 };
+
+// update a specific product
+
+exports.updateProduct = async (req, res, next) => {
+  if (req.user) {
+    console.log(req.body);
+    Item.findOneAndUpdate({ _id: req.body._id }, req.body).exec((err, doc) => {
+      if (err) {
+        return res.status(200).send("some error happened");
+      }
+      if (doc) {
+        console.log(doc);
+        return res.send(true);
+      }
+    });
+  } else {
+    return res.status(401).send("unauthorized");
+  }
+};

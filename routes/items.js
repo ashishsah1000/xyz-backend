@@ -1,6 +1,11 @@
 const express = require("express");
 const Passport = require("passport");
-const { createItem, allItems,deleteProduct } = require("../controllers/items/itemController");
+const {
+  createItem,
+  allItems,
+  deleteProduct,
+  updateProduct,
+} = require("../controllers/items/itemController");
 
 const router = express.Router();
 
@@ -13,8 +18,9 @@ router.route("/createProduct").post(createItem);
 router.route("/getAllItems").get(allItems);
 
 // delete specific product
-router.route("/removeProduct").post(deleteProduct)
+router.route("/removeProduct").post(deleteProduct);
 
 // update specific product
+router.route("/updateProduct").post(updateProduct);
 
 module.exports = router;
