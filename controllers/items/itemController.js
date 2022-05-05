@@ -12,6 +12,18 @@ exports.createItem = async (req, res, next) => {
       .then(async (doc) => {
         if (doc) {
           console.log("itemCode is already used for another product");
+          let newStock = parseInt(doc.stock) + parseInt(req.body.item.stock);
+          console.log(
+            "🚀 ~ file: itemController.js ~ line 16 ~ .then ~ newStock",
+            newStock
+          );
+
+          await Item.findOneAndUpdate(
+            { itemCode: req.body.item.itemCode },
+            {
+              stock: newStock,
+            }
+          );
           return res.send("itemCode is already used for another product");
         }
         const item = new Item({ ...req.body.item, user_id: req.body.user_id });
@@ -30,21 +42,6 @@ exports.createItem = async (req, res, next) => {
         console.log("error creating item");
         return res.send("error creating item");
       });
-    // await items.findOne({ username: req.body.username }, async (err, doc) => {
-    //   if (err) {
-    //     console.log(err);
-    //     return res.send("some err has occured");
-    //   }
-    //   if (doc) {
-    //     doc.items.push(req.body.items[0]);
-    //     await doc.save();
-    //     return res.send("success");
-    //   }
-    //   if (!doc) {
-    //     const createItem = items.create(req.body);
-    //     return res.send("Item was created");
-    //   }
-    // });
   } else {
     return res.send("authorization error");
   }

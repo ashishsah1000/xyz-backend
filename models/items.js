@@ -1,31 +1,6 @@
 const mongoose = require("mongoose");
 
 const itemSchema = new mongoose.Schema({
-  // username: {
-  //   type: String,
-  //   required: [true, "username is missing"],
-  //   unique: [true, "same username already exists"],
-  // },
-  // items: [
-  //   {
-  //     itemName: {
-  //       type: String,
-  //       required: [true, "Please provide item name"],
-  //       maxlength: [50, "Character length exceded"],
-  //     },
-  //     itemCode: {
-  //       type: String,
-  //     },
-  //     price: {
-  //       type: Number,
-  //       required: [true, "Price nai doge toh kaam kaisa chlega"],
-  //     },
-  //     createdOn: {
-  //       type: Date,
-  //       default: Date.now(),
-  //     },
-  //   },
-  // ],
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
@@ -40,6 +15,14 @@ const itemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  stock: {
+    type: Number,
+    default: 0,
+  },
+  category: {
+    type: String,
+    default: "Default",
+  },
   price: {
     type: Number,
     required: [true, "Price nai doge toh kaam kaisa chlega"],
@@ -47,6 +30,10 @@ const itemSchema = new mongoose.Schema({
   createdOn: {
     type: Date,
     default: Date.now(),
+  },
+  description: {
+    type: String,
+    default: "a store item",
   },
 });
 
